@@ -17,6 +17,7 @@ import { LoginModalInterceptor } from '@/features/auth/LoginModalInterceptor';
 import PageLogin from '@/features/auth/PageLogin';
 import PageLogout from '@/features/auth/PageLogout';
 import PageDashboard from '@/features/dashboard/PageDashboard';
+import PagePerfs from '@/features/perfs/PagePerfs';
 import { Layout } from '@/layout/Layout';
 import { Loader } from '@/layout/Loader';
 
@@ -116,6 +117,10 @@ export const routes = [
           {
             path: '',
             element: <PageDashboard />,
+          },
+          {
+            path: 'perfs',
+            element: <PagePerfs />,
           },
           {
             path: 'account',
