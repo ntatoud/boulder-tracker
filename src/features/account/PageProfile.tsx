@@ -1,9 +1,20 @@
 import React from 'react';
 
-import { Button, Card, CardBody, Flex, Heading, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  Stack,
+  useColorMode,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
 import { isEmail } from '@formiz/validations';
 import { useTranslation } from 'react-i18next';
+import { LuMoon, LuSun } from 'react-icons/lu';
+import { Link } from 'react-router-dom';
 
 import { FieldInput } from '@/components/FieldInput';
 import { FieldSelect } from '@/components/FieldSelect';
@@ -19,9 +30,9 @@ import { Loader } from '@/layout/Loader';
 import { AVAILABLE_LANGUAGES } from '@/lib/i18n/constants';
 
 export default function PageProfile() {
-  const { t } = useTranslation(['common', 'account']);
+  const { t } = useTranslation(['common', 'account', 'layout']);
   const account = useAccountFormQuery();
-
+  const { colorMode, toggleColorMode } = useColorMode();
   const toastSuccess = useToastSuccess();
   const toastError = useToastError();
 
@@ -118,6 +129,19 @@ export default function PageProfile() {
                     </Stack>
                   </form>
                 </Formiz>
+                <Button
+                  rightIcon={colorMode === 'dark' ? <LuSun /> : <LuMoon />}
+                  fontSize="lg"
+                  color="gray.400"
+                  onClick={() => toggleColorMode()}
+                >
+                  {colorMode === 'dark'
+                    ? t('layout:accountMenu.switchColorModeLight')
+                    : t('layout:accountMenu.switchColorModeDark')}
+                </Button>
+                <Button as={Link} to="/logout">
+                  Log out
+                </Button>
               </Stack>
             </CardBody>
           )}

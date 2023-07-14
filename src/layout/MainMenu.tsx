@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { Box, BoxProps, Stack } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, Stack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { LuCircuitBoard, LuMountainSnow } from 'react-icons/lu';
+import { RiAdminLine, RiProfileLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useAccount } from '@/features/account/service';
@@ -13,18 +15,29 @@ export const MainMenu = ({ ...rest }) => {
   const { isAdmin } = useAccount();
   return (
     <Stack direction="row" spacing="1" {...rest}>
-      <MainMenuItem to="/">{t('layout:mainMenu.dashboard')}</MainMenuItem>
-      <MainMenuItem to="/boulders">
+      <MainMenuItem to="/" icon={<LuCircuitBoard />}>
+        {t('layout:mainMenu.dashboard')}
+      </MainMenuItem>
+      <MainMenuItem to="/boulders" icon={<LuMountainSnow />}>
         {t('layout:mainMenu.boulders')}
       </MainMenuItem>
+      <MainMenuItem to="/account" icon={<RiProfileLine />}>
+        Profile
+      </MainMenuItem>
       {isAdmin && (
-        <MainMenuItem to="/admin">{t('layout:mainMenu.admin')}</MainMenuItem>
+        <MainMenuItem to="/admin" icon={<RiAdminLine />}>
+          {t('layout:mainMenu.admin')}
+        </MainMenuItem>
       )}
     </Stack>
   );
 };
-
-const MainMenuItem = ({ to, ...rest }: BoxProps & { to: string }) => {
+type MainMenuItemProps = BoxProps & {
+  to: string;
+  icon: ReactNode;
+};
+const MainMenuItem = ({ to, icon, ...props }: MainMenuItemProps) => {
+  const { children, ...rest } = { ...props };
   const { rtlValue } = useRtl();
   const { navOnClose } = useLayoutContext();
   const { pathname } = useLocation();
@@ -37,8 +50,10 @@ const MainMenuItem = ({ to, ...rest }: BoxProps & { to: string }) => {
       justifyContent="flex-start"
       position="relative"
       opacity={isActive ? 1 : 0.8}
+      fontSize={{ base: 'sm', md: 'md' }}
       fontWeight="bold"
       borderRadius="md"
+      w="300"
       px="4"
       py="2"
       _active={{ bg: 'gray.700' }}
@@ -72,6 +87,11 @@ const MainMenuItem = ({ to, ...rest }: BoxProps & { to: string }) => {
       }}
       onClick={navOnClose}
       {...rest}
-    />
+    >
+      <Flex direction="column" align="center">
+        {icon}
+        {children}
+      </Flex>
+    </Box>
   );
 };
