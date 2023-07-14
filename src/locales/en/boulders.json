@@ -1,0 +1,11 @@
+{
+  "title": "Boulders",
+  "dataList": {
+    "headers": {
+      "name": "Name",
+      "difficulty": "Difficulty",
+      "tags": "Tags",
+      "status": "Status"
+    }
+  }
+}

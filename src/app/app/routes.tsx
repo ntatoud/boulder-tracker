@@ -16,8 +16,8 @@ import { GuardPublicOnly } from '@/features/auth/GuardPublicOnly';
 import { LoginModalInterceptor } from '@/features/auth/LoginModalInterceptor';
 import PageLogin from '@/features/auth/PageLogin';
 import PageLogout from '@/features/auth/PageLogout';
+import PageBoulders from '@/features/boulders/PageBoulders';
 import PageDashboard from '@/features/dashboard/PageDashboard';
-import PagePerfs from '@/features/perfs/PagePerfs';
 import { Layout } from '@/layout/Layout';
 import { Loader } from '@/layout/Loader';
 
@@ -45,7 +45,12 @@ const PageUserUpdate = dynamic(
     loading: () => <Loader />,
   }
 );
-
+const PageBoulderCreate = dynamic(
+  () => import('@/features/boulders/PageBoulderCreate'),
+  {
+    loading: () => <Loader />,
+  }
+);
 export const routes = [
   {
     path: '/',
@@ -119,8 +124,17 @@ export const routes = [
             element: <PageDashboard />,
           },
           {
-            path: 'perfs',
-            element: <PagePerfs />,
+            path: 'boulders',
+            children: [
+              {
+                path: '',
+                element: <PageBoulders />,
+              },
+              {
+                path: 'create',
+                element: <PageBoulderCreate />,
+              },
+            ],
           },
           {
             path: 'account',

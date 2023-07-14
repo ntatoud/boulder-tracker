@@ -1,0 +1,11 @@
+{
+  "title": "Blocks",
+  "dataList": {
+    "headers": {
+      "name": "Nom",
+      "difficulty": "Difficulté",
+      "tags": "Étiquettes",
+      "status": "Statut"
+    }
+  }
+}

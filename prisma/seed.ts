@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { PrismaClient } from '@prisma/client';
+import { Boulder, PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -10,7 +10,7 @@ async function main() {
 
   if (!(await prisma.user.findUnique({ where: { login: 'admin' } }))) {
     const adminPassword = await bcrypt.hash('admin', 12);
-    await prisma.user.create({
+    const admin = await prisma.user.create({
       data: {
         email: 'admin@admin.com',
         login: 'admin',
@@ -24,7 +24,34 @@ async function main() {
     });
     createdUsersCounter += 1;
   }
+  const testPassword = await bcrypt.hash('test', 12);
 
+  createdUsersCounter += 1;
+  await prisma.boulderStatus.create({
+    data: {
+      boulder: {
+        create: {
+          name: 'Test',
+          grade: '7b',
+          location: 'Bleau',
+          tags: ' Dynamic',
+        },
+      },
+      user: {
+        create: {
+          email: 'test@test.com',
+          login: 'test',
+          password: testPassword,
+          firstName: 'Test',
+          lastName: 'Test',
+          activated: true,
+          langKey: 'en',
+          authorities: 'ROLE_ADMIN',
+        },
+      },
+      status: 'DONE',
+    },
+  });
   if (!(await prisma.user.findUnique({ where: { login: 'user' } }))) {
     const userPassword = await bcrypt.hash('user', 12);
     await prisma.user.create({
@@ -51,7 +78,7 @@ async function main() {
           login: faker.internet.userName(),
           password: password,
           firstName: faker.name.firstName(),
-          lastName: faker.name.lastName(),
+          lastName: faker.person.lastName(),
           activated: true,
           langKey: 'en',
           authorities: 'ROLE_USER',

@@ -2,7 +2,7 @@
   "mainMenu": {
     "dashboard": "Dashboard",
     "admin": "Admin",
-    "perfs": "Performances"
+    "boulders": "Boulders"
   },
   "accountMenu": {
     "version": {

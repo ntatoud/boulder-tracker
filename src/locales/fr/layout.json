@@ -2,7 +2,7 @@
   "mainMenu": {
     "dashboard": "Tableau de bord",
     "admin": "Admin",
-    "perfs": "Performances"
+    "boulders": "Blocks"
   },
   "accountMenu": {
     "version": {

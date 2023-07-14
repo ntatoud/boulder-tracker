@@ -1,6 +1,7 @@
 import account from './account.json';
 import admin from './admin.json';
 import auth from './auth.json';
+import boulders from './boulders.json';
 import common from './common.json';
 import components from './components.json';
 import dashboard from './dashboard.json';
@@ -18,4 +19,5 @@ export default {
   demoMode,
   layout,
   users,
+  boulders,
 } as const;
