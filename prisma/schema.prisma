@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -32,7 +32,7 @@ model User {
   updatedBy       User?    @relation("UpdatedByUser", fields: [updatedByUserId], references: [id])
   updatedUsers    User[]   @relation("UpdatedByUser")
 
-  boulders BoulderStatus[]
+  // boulders BoulderStatus[]
 }
 
 model VerificationToken {
@@ -44,19 +44,19 @@ model VerificationToken {
 }
 
 model Boulder {
-  id            Int             @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
   name          String
   grade         String
   location      String
   tags          String
-  statusByUsers BoulderStatus[]
+  statusByUsers String @default("")
 }
 
-model BoulderStatus {
-  id        Int     @id @default(autoincrement())
-  boulder   Boulder @relation(fields: [boulderId], references: [id])
-  user      User    @relation(fields: [userId], references: [id])
-  status    String
-  boulderId Int
-  userId    Int
-}
+// model BoulderStatus {
+//   id        Int     @id @default(autoincrement())
+//   boulder   Boulder @relation(fields: [boulderId], references: [id])
+//   user      User    @relation(fields: [userId], references: [id])
+//   status    String  @default("NOT_DONE")
+//   boulderId Int
+//   userId    Int
+// }
