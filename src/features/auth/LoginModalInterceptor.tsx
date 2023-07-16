@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from '@/features/auth/AuthContext';
-import { LoginForm } from '@/features/auth/LoginForm';
+import { LoginForm } from '@/features/auth/_partials/LoginForm';
 
 export const LoginModalInterceptor = () => {
   const { t } = useTranslation(['auth']);
