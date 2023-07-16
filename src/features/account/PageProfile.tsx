@@ -8,7 +8,6 @@ import {
   Heading,
   Stack,
   useColorMode,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
 import { isEmail } from '@formiz/validations';

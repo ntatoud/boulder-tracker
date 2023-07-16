@@ -1,64 +1,78 @@
-import { Button, Card, CardBody, Flex, Heading, Stack } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
-import { LuArrowRight, LuPlus } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 
-import { FieldInput } from '@/components/FieldInput';
-import { FieldMultiSelect } from '@/components/FieldMultiSelect';
-import { FieldSelect } from '@/components/FieldSelect';
-import { Page, PageContent } from '@/components/Page';
+import { Page, PageContent, PageTopBar } from '@/components/Page';
+import { useToastError, useToastSuccess } from '@/components/Toast';
 
-import { GRADES, TAGS } from './types';
+import { useAccount } from '../account/service';
+import { BoulderCreateForm } from './_partials/BoulderCreateForm';
+import { Boulder } from './schema';
+import { useBoulderCreate } from './services';
 
 export default function PageBoulderCreate() {
-  const form = useForm();
+  const navigate = useNavigate();
+  const toastSuccess = useToastSuccess();
+  const toastError = useToastError();
+  const account = useAccount();
+  const { mutate: createBoulder, isLoading: boulderLoading } = useBoulderCreate(
+    {
+      onError: (error) => {
+        if (error.response) {
+          const { title, errorKey } = error.response.data;
+          toastError({
+            title: 'Erreur lors de la création',
+            description: title,
+          });
+
+          if (errorKey === 'boulderexists') {
+            boulderForm.setErrors({
+              name: 'Name already used',
+            });
+          } else {
+            boulderForm.setErrors({
+              name: errorKey,
+            });
+          }
+        }
+      },
+      onSuccess: () => {
+        toastSuccess({
+          title: 'Success',
+        });
+        navigate('../');
+      },
+    }
+  );
+
+  const boulderForm = useForm<
+    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade' | 'statusByUsers'>
+  >({
+    onValidSubmit: (values) => {
+      const { tags, statusByUsers: status, ...restValues } = { ...values };
+      const newBoulder = {
+        ...restValues,
+        tags: [...tags].join(', '),
+        statusByUsers: `${
+          account.data?.firstName ?? account.data?.email
+        } ${status}`,
+      };
+      createBoulder(newBoulder);
+    },
+  });
+
   return (
-    <Page containerSize="lg">
-      <PageContent>
-        <Heading size="lg" mb="4">
-          Add your boulder
-        </Heading>
-        <Card minH="22rem">
-          <CardBody>
-            <Stack spacing={6}>
-              <Formiz connect={form} autoForm>
-                <FieldInput
-                  required={'Name must be specified' as string}
-                  name="name"
-                  label="Boulder Name"
-                  helper="Block en Stock"
-                />
-                <FieldSelect
-                  required="Please select a grade"
-                  name="grade"
-                  label="Grade"
-                  options={Object.keys(GRADES).map((grade) => {
-                    return { label: grade, value: grade };
-                  })}
-                  helper="Chose the grade of your boulder"
-                />
-                <FieldMultiSelect
-                  name="tags"
-                  label="Tags"
-                  options={Object.values(TAGS).map((tag) => {
-                    return { label: tag, value: tag };
-                  })}
-                  helper="Chose the attributes of your boulder"
-                />
-                <Flex>
-                  <Button
-                    type="submit"
-                    rightIcon={<LuArrowRight />}
-                    variant="@primary"
-                    ms="auto"
-                  >
-                    FINISH
-                  </Button>
-                </Flex>
-              </Formiz>
-            </Stack>
-          </CardBody>
-        </Card>
-      </PageContent>
+    <Page containerSize="lg" isFocusMode>
+      <Formiz connect={boulderForm}>
+        <form noValidate onSubmit={boulderForm.submit}>
+          <PageTopBar showBack onBack={() => navigate('../')}>
+            <Heading size="md">Add your boulder</Heading>
+          </PageTopBar>
+          <PageContent>
+            <BoulderCreateForm isLoading={boulderLoading} />
+          </PageContent>
+        </form>
+      </Formiz>
     </Page>
   );
 }
