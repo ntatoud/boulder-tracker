@@ -24,10 +24,10 @@ export const Layout: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   return (
     <LayoutContext.Provider value={providerValue}>
       <Viewport>
-        {!isFocusMode && <TopBar />}
         <Flex flex="1" direction="column">
           {children}
         </Flex>
+        {!isFocusMode && <TopBar />}
       </Viewport>
     </LayoutContext.Provider>
   );

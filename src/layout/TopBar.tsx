@@ -1,48 +1,11 @@
 import React from 'react';
 
-import {
-  Box,
-  Flex,
-  IconButton,
-  IconButtonProps,
-  SlideFade,
-  useBreakpointValue,
-  useTheme,
-} from '@chakra-ui/react';
-import { LuMenu } from 'react-icons/lu';
-import { Link } from 'react-router-dom';
+import { Box, Flex, SlideFade, useTheme } from '@chakra-ui/react';
 
-import { Logo } from '@/components/Logo';
-import { AccountMenu } from '@/layout/AccountMenu';
-import { useLayoutContext } from '@/layout/LayoutContext';
 import { MainMenu } from '@/layout/MainMenu';
-import { NavDrawer } from '@/layout/NavDrawer';
-
-const MenuButton = (props: Partial<IconButtonProps>) => {
-  const { navOnOpen } = useLayoutContext();
-  return (
-    <IconButton
-      aria-label="Navigation"
-      icon={<LuMenu size="1.5em" />}
-      onClick={navOnOpen}
-      variant="unstyled"
-      _active={{ bg: 'gray.700' }}
-      _hover={{ bg: 'gray.900' }}
-      {...props}
-    />
-  );
-};
 
 export const TopBar = () => {
   const theme = useTheme();
-
-  const showDrawer = useBreakpointValue(
-    {
-      base: true,
-      [theme.layout.breakpoints.desktop]: false,
-    },
-    { ssr: false }
-  );
 
   return (
     <>
@@ -65,7 +28,6 @@ export const TopBar = () => {
         </Flex>
       </SlideFade>
       <Box h={theme.layout.topBar.height} />
-      {showDrawer && <NavDrawer />}
     </>
   );
 };

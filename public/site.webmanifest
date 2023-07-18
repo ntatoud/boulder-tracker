@@ -1,6 +1,6 @@
 {
-    "name": "Start UI",
-    "short_name": "Start UI",
+    "name": "Boulder Tracker",
+    "short_name": "Boulder Tracker",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

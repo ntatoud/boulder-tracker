@@ -22,15 +22,15 @@ model User {
   langKey     String  @default("en")
   authorities String  @default("ROLE_USER")
 
-  createdAt       DateTime @default(now())
-  createdByUserId Int?
-  createdBy       User?    @relation("CreatedByUser", fields: [createdByUserId], references: [id])
-  createdUsers    User[]   @relation("CreatedByUser")
+  // createdAt       DateTime @default(now())
+  // createdByUserId Int?
+  // createdBy       User?    @relation("CreatedByUser", fields: [createdByUserId], references: [id])
+  // createdUsers    User[]   @relation("CreatedByUser")
 
-  updatedAt       DateTime @updatedAt
-  updatedByUserId Int?
-  updatedBy       User?    @relation("UpdatedByUser", fields: [updatedByUserId], references: [id])
-  updatedUsers    User[]   @relation("UpdatedByUser")
+  // updatedAt       DateTime @updatedAt
+  // updatedByUserId Int?
+  // updatedBy       User?    @relation("UpdatedByUser", fields: [updatedByUserId], references: [id])
+  // updatedUsers    User[]   @relation("UpdatedByUser")
 
   // boulders BoulderStatus[]
 }
