@@ -63,13 +63,17 @@ export default function PageBoulderCreate() {
 
   return (
     <Page containerSize="lg" isFocusMode>
+      <PageTopBar showBack onBack={() => navigate('../')}>
+        <Heading size="md">Add your boulder</Heading>
+      </PageTopBar>
       <Formiz connect={boulderForm}>
         <form noValidate onSubmit={boulderForm.submit}>
-          <PageTopBar showBack onBack={() => navigate('../')}>
-            <Heading size="md">Add your boulder</Heading>
-          </PageTopBar>
           <PageContent>
-            <BoulderCreateForm isLoading={boulderLoading} />
+            <BoulderCreateForm
+              w={{ base: '100vw', md: 'full' }}
+              alignSelf="center"
+              isLoading={boulderLoading}
+            />
           </PageContent>
         </form>
       </Formiz>
