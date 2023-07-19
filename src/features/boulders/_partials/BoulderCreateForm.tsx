@@ -24,7 +24,6 @@ export const BoulderCreateForm: FC<BoulderCreateFormProps> = ({
   isLoading: boulderLoading,
   ...rest
 }) => {
-  // const { t } = useTranslation(['boulders']);
   const navigate = useNavigate();
   return (
     <Card minH="22rem" {...rest}>
@@ -69,7 +68,7 @@ export const BoulderCreateForm: FC<BoulderCreateFormProps> = ({
         </Stack>
       </CardBody>
       <CardFooter>
-        <ButtonGroup justifyContent="space-between">
+        <ButtonGroup flex="1" justifyContent="space-between">
           <Button onClick={() => navigate('../')}>cancel</Button>
           <Button type="submit" variant="@primary" isLoading={boulderLoading}>
             Submit

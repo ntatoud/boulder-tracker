@@ -55,12 +55,12 @@ export const POST = apiMethod({
     }
 
     try {
-      const user = formatBoulderFromDb(
+      const boulder = formatBoulderFromDb(
         await db.boulder.create({
           data: prepareBoulderForDb(bodyParsed.data),
         })
       );
-      return NextResponse.json(user);
+      return NextResponse.json(boulder);
     } catch (e) {
       return boulderErrorResponse(e);
     }
@@ -84,13 +84,13 @@ export const PUT = apiMethod({
     }
 
     try {
-      const user = formatBoulderFromDb(
-        await db.user.update({
+      const boulder = formatBoulderFromDb(
+        await db.boulder.update({
           where: { id: bodyParsed.data.id },
           data: prepareBoulderForDb(bodyParsed.data),
         })
       );
-      return NextResponse.json(user);
+      return NextResponse.json(boulder);
     } catch (e) {
       return boulderErrorResponse(e);
     }

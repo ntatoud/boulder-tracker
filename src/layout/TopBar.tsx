@@ -1,26 +1,11 @@
 import React from 'react';
 
-import {
-  Box,
-  Flex,
-  SlideFade,
-  useBreakpointValue,
-  useTheme,
-} from '@chakra-ui/react';
+import { Box, Flex, SlideFade, useTheme } from '@chakra-ui/react';
 
 import { MainMenu } from '@/layout/MainMenu';
-import { NavDrawer } from '@/layout/NavDrawer';
 
 export const TopBar = () => {
   const theme = useTheme();
-
-  const showDrawer = useBreakpointValue(
-    {
-      base: true,
-      [theme.layout.breakpoints.desktop]: false,
-    },
-    { ssr: false }
-  );
 
   return (
     <>
@@ -43,7 +28,6 @@ export const TopBar = () => {
         </Flex>
       </SlideFade>
       <Box h={theme.layout.topBar.height} />
-      {showDrawer && <NavDrawer />}
     </>
   );
 };
