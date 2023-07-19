@@ -3,8 +3,8 @@ import React, { FC, useMemo, useState } from 'react';
 import { Flex, useDisclosure } from '@chakra-ui/react';
 
 import { Viewport } from '@/components/Viewport';
+import { BottomNavBar } from '@/layout/BottomNavBar';
 import { LayoutContext } from '@/layout/LayoutContext';
-import { TopBar } from '@/layout/TopBar';
 
 export const Layout: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   const [isFocusMode, setIsFocusMode] = useState(false);
@@ -27,7 +27,7 @@ export const Layout: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
         <Flex flex="1" direction="column">
           {children}
         </Flex>
-        {!isFocusMode && <TopBar />}
+        {!isFocusMode && <BottomNavBar />}
       </Viewport>
     </LayoutContext.Provider>
   );

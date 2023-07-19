@@ -14,7 +14,7 @@ import {
 import { LuCheck } from 'react-icons/lu';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 
-import { Boulder } from '../schema';
+import { Boulder } from '../../schema';
 
 export type BoulderPanelProps = AccordionPanelProps & {
   boulder: Boulder;

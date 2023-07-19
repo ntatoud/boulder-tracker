@@ -4,7 +4,7 @@ import { Box, Flex, SlideFade, useTheme } from '@chakra-ui/react';
 
 import { MainMenu } from '@/layout/MainMenu';
 
-export const TopBar = () => {
+export const BottomNavBar = () => {
   const theme = useTheme();
 
   return (
