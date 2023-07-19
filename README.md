@@ -1,4 +1,4 @@
-<h1 align="center"><img src="assets/thumbnail.png" alt="Start UI Web" /></h1>
+<h1 align="center"><img src="assets/thumbnail.png" alt="Boulder Tracker" /></h1>
 
 [![Discord](https://img.shields.io/discord/452798408491663361)](https://go.bearstudio.fr/discord)
 

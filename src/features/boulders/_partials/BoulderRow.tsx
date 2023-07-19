@@ -15,11 +15,9 @@ import {
   DataListAccordion,
   DataListAccordionButton,
   DataListAccordionIcon,
-  DataListAccordionPanel,
   DataListCell,
   DataListCellProps,
   DataListRow,
-  DataListRowProps,
 } from '@/components/DataList';
 
 import { Boulder, BoulderStatus } from '../schema';

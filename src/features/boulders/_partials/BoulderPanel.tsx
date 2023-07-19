@@ -5,14 +5,12 @@ import {
   AccordionPanelProps,
   Box,
   Center,
-  HStack,
   IconButton,
   IconButtonProps,
   Stack,
   StackProps,
   Text,
 } from '@chakra-ui/react';
-import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import { LuCheck } from 'react-icons/lu';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 
@@ -45,6 +43,7 @@ const BoulderPanelMenu: FC<StackProps> = ({ ...props }) => {
       align="flex-end"
       justify="flex-end"
       pb="1rem"
+      {...props}
     >
       <PanelMenuButton label="Done" icon={<LuCheck />} />
       <PanelMenuButton label="Like" icon={<RiHeart3Line />} />
