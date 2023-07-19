@@ -1,8 +1,8 @@
 {
-  "name": "start-ui-web",
+  "name": "boulder-tracker",
   "private": true,
   "version": "1.0.0",
-  "description": "Opinionated UI starter with ⚛️ React, ⚡️ Chakra UI, ⚛️ React Query & 🐜 Formiz — From the 🐻 BearStudio Team",
+  "description": "Climb, Track, Share, Progress",
   "engines": {
     "node": ">=16.8.0 <19.0.0",
     "npm": "please-use-yarn",
@@ -116,23 +116,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bearstudio/start-ui-web.git"
+    "url": "git+https://github.com/ntatoud/boulder-tracker-web.git"
   },
   "author": {
-    "name": "Ivan Dalmet",
-    "email": "ivan@dalmet.fr",
-    "url": "https://github.com/ivan-dalmet"
+    "name": "Noé Tatoud",
+    "email": "noe.tatoud@gmail.cpm",
+    "url": "https://github.com/ntatoud"
   },
-  "contributors": [
-    {
-      "name": "Yoann Fleury",
-      "email": "yoannfleurydev@gmail.com",
-      "url": "https://github.com/yoannfleurydev"
-    }
-  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bearstudio/start-ui-web/issues"
-  },
-  "homepage": "https://github.com/bearstudio/start-ui-web#readme"
+  "homepage": "https://github.com/bearstudio/boulder-tracker#readme"
 }
