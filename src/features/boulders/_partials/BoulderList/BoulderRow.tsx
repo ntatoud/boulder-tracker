@@ -20,7 +20,7 @@ import {
   DataListRow,
 } from '@/components/DataList';
 
-import { Boulder, BoulderStatus } from '../schema';
+import { Boulder, BoulderStatus } from '../../schema';
 import { BoulderPanel } from './BoulderPanel';
 
 const badgeContent = {
@@ -55,7 +55,14 @@ const StatusCell = ({ isMobile, status, ...rest }: StatusCellProps) => {
   const { icon, content, color } = badgeContent[status];
   return (
     <DataListCell colName="status" align="center" {...rest}>
-      <Badge h="5" justifyContent="center" variant="subtle" colorScheme={color}>
+      <Badge
+        h="auto"
+        py="1"
+        borderRadius="md"
+        justifyContent="center"
+        variant="subtle"
+        colorScheme={color}
+      >
         {!isMobile ? content : icon}
       </Badge>
     </DataListCell>
@@ -70,7 +77,7 @@ export const BoulderRow: FC<BoulderCaseProps> = ({ boulder, ...props }) => {
   const status = boulder.statusByUsers.split(' ').pop() ?? 'NOT_TRIED';
   return (
     <DataListAccordion key={boulder.id} {...props}>
-      <DataListRow as={DataListAccordionButton}>
+      <DataListRow as={DataListAccordionButton} h="4rem">
         <DataListCell colName="boulder" colWidth="1">
           <HStack>
             <Avatar variant="solid" size="sm" name={boulder.name} />

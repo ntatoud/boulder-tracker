@@ -2,14 +2,18 @@ import { HStack, Heading, Stack } from '@chakra-ui/react';
 import { LuPlus } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 
-import { Page, PageContent } from '@/components/Page';
+import { Page, PageContent, PageTopBar } from '@/components/Page';
 import { ResponsiveIconButton } from '@/components/ResponsiveIconButton';
 
-import { BoulderDataList } from './_partials/BoulderDataList';
+import { BoulderNav } from './BoulderNav';
+import { BoulderList } from './_partials/BoulderList/BoulderList';
 
 export default function PageBoulders() {
   return (
-    <Page containerSize="xl">
+    <Page containerSize="xl" nav={<BoulderNav />}>
+      <PageTopBar>
+        <Heading size="lg">Boulders</Heading>
+      </PageTopBar>
       <PageContent>
         <Stack spacing={4}>
           <HStack spacing={4}>
@@ -25,7 +29,7 @@ export default function PageBoulders() {
               Ajouter un block
             </ResponsiveIconButton>{' '}
           </HStack>
-          <BoulderDataList />
+          <BoulderList />
         </Stack>
       </PageContent>
     </Page>

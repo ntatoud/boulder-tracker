@@ -13,12 +13,12 @@ import {
   DataListProps,
 } from '@/components/DataList';
 
-import { useBoulderList } from '../services';
+import { useBoulderList } from '../../services';
 import { BoulderRow } from './BoulderRow';
 
-type BoulderDataListHeaderProps = DataListHeaderProps;
-const BoulderDataListHeader: FC<
-  React.PropsWithChildren<BoulderDataListHeaderProps>
+type BoulderListHeaderProps = DataListHeaderProps;
+const BoulderListHeader: FC<
+  React.PropsWithChildren<BoulderListHeaderProps>
 > = ({ ...props }) => {
   const { t } = useTranslation(['boulders']);
   return (
@@ -40,10 +40,10 @@ const BoulderDataListHeader: FC<
   );
 };
 
-type BoulderDataListProps = DataListProps;
-export const BoulderDataList: FC<
-  React.PropsWithChildren<BoulderDataListProps>
-> = ({ ...props }) => {
+type BoulderListProps = DataListProps;
+export const BoulderList: FC<React.PropsWithChildren<BoulderListProps>> = ({
+  ...props
+}) => {
   const {
     data,
     refetch,
@@ -58,7 +58,7 @@ export const BoulderDataList: FC<
       alignSelf="center"
       w={{ base: '100vw', md: 'full' }}
     >
-      <BoulderDataListHeader />
+      <BoulderListHeader />
       {bouldersLoading && <DataListLoadingState />}
       {bouldersError && (
         <DataListErrorState

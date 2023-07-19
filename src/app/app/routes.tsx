@@ -17,6 +17,7 @@ import { LoginModalInterceptor } from '@/features/auth/LoginModalInterceptor';
 import PageLogin from '@/features/auth/PageLogin';
 import PageLogout from '@/features/auth/PageLogout';
 import PageBoulders from '@/features/boulders/PageBoulders';
+import PageRanking from '@/features/boulders/ranking/PageRanking';
 import PageDashboard from '@/features/dashboard/PageDashboard';
 import { Layout } from '@/layout/Layout';
 import { Loader } from '@/layout/Loader';
@@ -133,6 +134,10 @@ export const routes = [
               {
                 path: 'create',
                 element: <PageBoulderCreate />,
+              },
+              {
+                path: 'ranking',
+                element: <PageRanking />,
               },
             ],
           },

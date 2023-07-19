@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 
-import { Box, BoxProps, Flex, Stack } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, Stack, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { LuCircuitBoard, LuMountainSnow } from 'react-icons/lu';
-import { RiAdminLine, RiProfileLine } from 'react-icons/ri';
+import { LuMountainSnow, LuUser, LuUserCog } from 'react-icons/lu';
+import { RiDashboardLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useAccount } from '@/features/account/service';
@@ -15,17 +15,17 @@ export const MainMenu = ({ ...rest }) => {
   const { isAdmin } = useAccount();
   return (
     <Stack direction="row" spacing="1" {...rest}>
-      <MainMenuItem to="/" icon={<LuCircuitBoard />}>
+      <MainMenuItem to="/" icon={<RiDashboardLine />}>
         {t('layout:mainMenu.dashboard')}
       </MainMenuItem>
       <MainMenuItem to="/boulders" icon={<LuMountainSnow />}>
         {t('layout:mainMenu.boulders')}
       </MainMenuItem>
-      <MainMenuItem to="/account" icon={<RiProfileLine />}>
+      <MainMenuItem to="/account" icon={<LuUser />}>
         Profile
       </MainMenuItem>
       {isAdmin && (
-        <MainMenuItem to="/admin" icon={<RiAdminLine />}>
+        <MainMenuItem to="/admin" icon={<LuUserCog />}>
           {t('layout:mainMenu.admin')}
         </MainMenuItem>
       )}
@@ -39,6 +39,7 @@ type MainMenuItemProps = BoxProps & {
 const MainMenuItem = ({ to, icon, ...props }: MainMenuItemProps) => {
   const { children, ...rest } = { ...props };
   const { rtlValue } = useRtl();
+  const { isAdmin } = useAccount();
   const { navOnClose } = useLayoutContext();
   const { pathname } = useLocation();
   const isActive = to === '/' ? pathname === '/' : pathname?.startsWith(to);
@@ -46,22 +47,23 @@ const MainMenuItem = ({ to, icon, ...props }: MainMenuItemProps) => {
     <Box
       as={Link}
       to={to}
-      bg="transparent"
       justifyContent="flex-start"
       position="relative"
       opacity={isActive ? 1 : 0.8}
       fontSize={{ base: 'sm', md: 'md' }}
       fontWeight="bold"
-      borderRadius="md"
-      w="300"
+      borderRadius="full"
+      w={isAdmin ? '25vw' : '33vw'}
       px="4"
       py="2"
-      _active={{ bg: 'gray.700' }}
+      bg={isActive ? 'gray.900' : 'gray.800'}
+      _dark={{
+        bg: isActive ? 'gray.700' : 'gray.900',
+      }}
       _hover={{
-        bg: 'gray.900',
-        _after: {
-          opacity: 1,
-          w: '2rem',
+        bg: 'gray.700',
+        _dark: {
+          bg: 'gray.800',
         },
       }}
       _focusVisible={{
@@ -76,7 +78,7 @@ const MainMenuItem = ({ to, icon, ...props }: MainMenuItemProps) => {
         opacity: isActive ? 1 : 0,
         content: '""',
         position: 'absolute',
-        insetStart: { base: 8, md: '50%' },
+        insetStart: '50%',
         bottom: '0.2em',
         transform: rtlValue('translateX(-50%)', 'translateX(50%)'),
         transition: '0.2s',
@@ -84,13 +86,14 @@ const MainMenuItem = ({ to, icon, ...props }: MainMenuItemProps) => {
         h: '2px',
         borderRadius: 'full',
         bg: 'currentColor',
+        justifyItems: 'center',
       }}
       onClick={navOnClose}
       {...rest}
     >
-      <Flex direction="column" align="center">
+      <Flex direction="column" align="center" fontSize="lg">
         {icon}
-        {children}
+        <Text fontSize="xs">{children}</Text>
       </Flex>
     </Box>
   );
