@@ -7,6 +7,8 @@ import {
   formatUserFromDb,
 } from '@/app/api/jhipster-mocks/_helpers/user';
 
+import { BoulderFormatted } from './boulder';
+
 type Method = {
   public?: boolean;
   admin?: boolean;
@@ -69,6 +71,20 @@ export const notSignedInResponse: ErrorResponse = ({
       details,
     }),
     { status: 401 }
+  );
+};
+export const boulderNotFoundResponse: ErrorResponse = ({
+  title,
+  message,
+  details,
+} = {}) => {
+  return new NextResponse(
+    JSON.stringify({
+      title: title ?? 'Boulder not found',
+      message: message ?? 'error.http.404',
+      details,
+    }),
+    { status: 404 }
   );
 };
 

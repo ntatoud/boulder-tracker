@@ -27,7 +27,7 @@ export const Layout: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
         <Flex flex="1" direction="column">
           {children}
         </Flex>
-        {!isFocusMode && <BottomNavBar />}
+        <BottomNavBar />
       </Viewport>
     </LayoutContext.Provider>
   );

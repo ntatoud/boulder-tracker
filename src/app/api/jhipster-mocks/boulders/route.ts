@@ -40,7 +40,7 @@ export const GET = apiMethod({
 });
 
 export const POST = apiMethod({
-  handler: async ({ req }) => {
+  handler: async ({ req, user }) => {
     const bodyParsed = z
       .object({
         name: z.string(),
@@ -53,13 +53,15 @@ export const POST = apiMethod({
     if (!bodyParsed.success) {
       return badRequestResponse({ details: bodyParsed.error });
     }
-
+    console.log(user);
     try {
       const boulder = formatBoulderFromDb(
         await db.boulder.create({
           data: prepareBoulderForDb(bodyParsed.data),
         })
       );
+      const dbBoulder = NextResponse.json(boulder);
+      console.log(dbBoulder);
       return NextResponse.json(boulder);
     } catch (e) {
       return boulderErrorResponse(e);

@@ -1,6 +1,7 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 import {
   UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   useMutation,
   useQuery,
@@ -78,4 +79,26 @@ export const useBoulderList = (
     isLoadingPage,
     ...query,
   };
+};
+
+export const useBoulderDelete = (
+  config: UseMutationOptions<
+    void,
+    AxiosError<ApiErrorResponse>,
+    Pick<Boulder, 'name'>
+  > = {}
+) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (boulder) => {
+      await Axios.delete(`/boulders/${boulder.name}`);
+    },
+    {
+      ...config,
+      onSuccess: (...args) => {
+        queryClient.invalidateQueries(bouldersKeys.boulders._def);
+        config?.onSuccess?.(...args);
+      },
+    }
+  );
 };

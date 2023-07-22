@@ -11,10 +11,15 @@ import {
   StackProps,
   Text,
 } from '@chakra-ui/react';
-import { LuCheck } from 'react-icons/lu';
+import { LuCheck, LuTrash } from 'react-icons/lu';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 
+import { useToastError, useToastSuccess } from '@/components/Toast';
+import { useAccount } from '@/features/account/service';
+import { useUser } from '@/features/users/service';
+
 import { Boulder } from '../../schema';
+import { useBoulderDelete } from '../../services';
 
 export type BoulderPanelProps = AccordionPanelProps & {
   boulder: Boulder;
@@ -34,7 +39,27 @@ export const PanelMenuButton: FC<
     />
   );
 };
-const BoulderPanelMenu: FC<StackProps> = ({ ...props }) => {
+
+type BoulderPanelMenuProps = StackProps & { boulder: Boulder };
+const BoulderPanelMenu: FC<BoulderPanelMenuProps> = ({ boulder, ...props }) => {
+  const { isAdmin } = useAccount();
+  const toastSuccess = useToastSuccess();
+  const toastError = useToastError();
+  const { mutate: boulderDelete, isLoading: boulderDeleteLoading } =
+    useBoulderDelete({
+      onSuccess: (_, { name }: TODO) => {
+        toastSuccess({
+          title: 'Boulder was deleted',
+          description: `Boulder ${name} was deleted`,
+        });
+      },
+      onError: (_, { name }) => {
+        toastError({
+          title: 'Error on boulder delete',
+          description: `Boulder ${name} was not found`,
+        });
+      },
+    });
   return (
     <Stack
       justifySelf="flex-end"
@@ -45,6 +70,17 @@ const BoulderPanelMenu: FC<StackProps> = ({ ...props }) => {
       pb="1rem"
       {...props}
     >
+      {isAdmin && (
+        <PanelMenuButton
+          label="delete"
+          icon={<LuTrash color="red" />}
+          variant="@danger"
+          bg="transparent"
+          onClick={() => boulderDelete(boulder)}
+          isDisabled={boulderDeleteLoading}
+          isLoading={boulderDeleteLoading}
+        />
+      )}
       <PanelMenuButton label="Done" icon={<LuCheck />} />
       <PanelMenuButton label="Like" icon={<RiHeart3Line />} />
       <PanelMenuButton label="Like" icon={<RiHeart3Fill />} />
@@ -61,7 +97,7 @@ export const BoulderPanel: FC<BoulderPanelProps> = ({ boulder, ...props }) => {
           <Center h="full">Image placeholder</Center>
         </Box>
       </Stack>
-      <BoulderPanelMenu flex="1" />
+      <BoulderPanelMenu boulder={boulder} flex="1" />
     </AccordionPanel>
   );
 };
