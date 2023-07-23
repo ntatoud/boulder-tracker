@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import {
   AccordionPanel,
@@ -14,9 +14,9 @@ import {
 import { LuCheck, LuTrash } from 'react-icons/lu';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 
+import { ConfirmModal, ConfirmModalProps } from '@/components/ConfirmModal';
 import { useToastError, useToastSuccess } from '@/components/Toast';
 import { useAccount } from '@/features/account/service';
-import { useUser } from '@/features/users/service';
 
 import { Boulder } from '../../schema';
 import { useBoulderDelete } from '../../services';
@@ -37,6 +37,29 @@ export const PanelMenuButton: FC<
       aria-label={label}
       icon={icon}
     />
+  );
+};
+
+type BoulderDeleteConfirmModalProps = ConfirmModalProps & {
+  name: string;
+  onConfirm: () => void;
+};
+const BoulderDeleteConfirmModal: FC<
+  PropsWithChildren<BoulderDeleteConfirmModalProps>
+> = ({ name, onConfirm, ...props }) => {
+  const { children, ...rest } = { ...props };
+  return (
+    <ConfirmModal
+      isCentered
+      size="xl"
+      confirmVariant="@danger"
+      title={`Delete boulder ${name} ?`}
+      message="By clicking confirm, this boulder will be permanently deleted"
+      onConfirm={onConfirm}
+      {...rest}
+    >
+      {children}
+    </ConfirmModal>
   );
 };
 
@@ -71,15 +94,19 @@ const BoulderPanelMenu: FC<BoulderPanelMenuProps> = ({ boulder, ...props }) => {
       {...props}
     >
       {isAdmin && (
-        <PanelMenuButton
-          label="delete"
-          icon={<LuTrash color="red" />}
-          variant="@danger"
-          bg="transparent"
-          onClick={() => boulderDelete(boulder)}
-          isDisabled={boulderDeleteLoading}
-          isLoading={boulderDeleteLoading}
-        />
+        <BoulderDeleteConfirmModal
+          name={boulder.name}
+          onConfirm={() => boulderDelete(boulder)}
+        >
+          <PanelMenuButton
+            label="delete"
+            icon={<LuTrash color="red" />}
+            variant="@danger"
+            bg="transparent"
+            isDisabled={boulderDeleteLoading}
+            isLoading={boulderDeleteLoading}
+          />
+        </BoulderDeleteConfirmModal>
       )}
       <PanelMenuButton label="Done" icon={<LuCheck />} />
       <PanelMenuButton label="Like" icon={<RiHeart3Line />} />

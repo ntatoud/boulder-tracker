@@ -7,8 +7,6 @@ import {
   formatUserFromDb,
 } from '@/app/api/jhipster-mocks/_helpers/user';
 
-import { BoulderFormatted } from './boulder';
-
 type Method = {
   public?: boolean;
   admin?: boolean;

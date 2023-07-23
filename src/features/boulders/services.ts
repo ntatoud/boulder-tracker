@@ -1,7 +1,6 @@
 import { createQueryKeys } from '@lukemorales/query-key-factory';
 import {
   UseMutationOptions,
-  UseMutationResult,
   UseQueryOptions,
   useMutation,
   useQuery,
