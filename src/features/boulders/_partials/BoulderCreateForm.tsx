@@ -15,7 +15,7 @@ import { FieldInput } from '@/components/FieldInput';
 import { FieldMultiSelect } from '@/components/FieldMultiSelect';
 import { FieldSelect } from '@/components/FieldSelect';
 
-import { zBoulderGrade, zBoulderStatus, zBoulderTag } from '../schema';
+import { zBoulderGrade, zBoulderTag } from '../schema';
 
 export type BoulderCreateFormProps = CardProps & {
   isLoading: boolean;
@@ -30,7 +30,7 @@ export const BoulderCreateForm: FC<BoulderCreateFormProps> = ({
       <CardBody>
         <Stack>
           <FieldInput
-            required={'Name must be specified' as string}
+            required="Name must be specified"
             name="name"
             label="Boulder Name"
             helper="Block en Stock"
@@ -57,14 +57,14 @@ export const BoulderCreateForm: FC<BoulderCreateFormProps> = ({
             label="Location"
             helper="Ex: Arkose Rouen"
           />
-          <FieldSelect
-            name="statusByUsers"
+          {/* <FieldSelect
+            name="status"
             label="Status"
             options={Object.keys(zBoulderStatus().enum).map((status) => {
               return { label: status, value: status };
             })}
             helper="Did you top this boulder ?"
-          />
+          /> */}
         </Stack>
       </CardBody>
       <CardFooter>

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import {
   AccordionPanel,
@@ -11,10 +11,15 @@ import {
   StackProps,
   Text,
 } from '@chakra-ui/react';
-import { LuCheck } from 'react-icons/lu';
+import { LuCheck, LuTrash } from 'react-icons/lu';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 
+import { ConfirmModal, ConfirmModalProps } from '@/components/ConfirmModal';
+import { useToastError, useToastSuccess } from '@/components/Toast';
+import { useAccount } from '@/features/account/service';
+
 import { Boulder } from '../../schema';
+import { useBoulderDelete } from '../../services';
 
 export type BoulderPanelProps = AccordionPanelProps & {
   boulder: Boulder;
@@ -34,7 +39,50 @@ export const PanelMenuButton: FC<
     />
   );
 };
-const BoulderPanelMenu: FC<StackProps> = ({ ...props }) => {
+
+type BoulderDeleteConfirmModalProps = ConfirmModalProps & {
+  name: string;
+  onConfirm: () => void;
+};
+const BoulderDeleteConfirmModal: FC<
+  PropsWithChildren<BoulderDeleteConfirmModalProps>
+> = ({ name, onConfirm, ...props }) => {
+  const { children, ...rest } = { ...props };
+  return (
+    <ConfirmModal
+      isCentered
+      size="xl"
+      confirmVariant="@danger"
+      title={`Delete boulder ${name} ?`}
+      message="By clicking confirm, this boulder will be permanently deleted"
+      onConfirm={onConfirm}
+      {...rest}
+    >
+      {children}
+    </ConfirmModal>
+  );
+};
+
+type BoulderPanelMenuProps = StackProps & { boulder: Boulder };
+const BoulderPanelMenu: FC<BoulderPanelMenuProps> = ({ boulder, ...props }) => {
+  const { isAdmin } = useAccount();
+  const toastSuccess = useToastSuccess();
+  const toastError = useToastError();
+  const { mutate: boulderDelete, isLoading: boulderDeleteLoading } =
+    useBoulderDelete({
+      onSuccess: (_, { name }: TODO) => {
+        toastSuccess({
+          title: 'Boulder was deleted',
+          description: `Boulder ${name} was deleted`,
+        });
+      },
+      onError: (_, { name }) => {
+        toastError({
+          title: 'Error on boulder delete',
+          description: `Boulder ${name} was not found`,
+        });
+      },
+    });
   return (
     <Stack
       justifySelf="flex-end"
@@ -45,6 +93,21 @@ const BoulderPanelMenu: FC<StackProps> = ({ ...props }) => {
       pb="1rem"
       {...props}
     >
+      {isAdmin && (
+        <BoulderDeleteConfirmModal
+          name={boulder.name}
+          onConfirm={() => boulderDelete(boulder)}
+        >
+          <PanelMenuButton
+            label="delete"
+            icon={<LuTrash color="red" />}
+            variant="@danger"
+            bg="transparent"
+            isDisabled={boulderDeleteLoading}
+            isLoading={boulderDeleteLoading}
+          />
+        </BoulderDeleteConfirmModal>
+      )}
       <PanelMenuButton label="Done" icon={<LuCheck />} />
       <PanelMenuButton label="Like" icon={<RiHeart3Line />} />
       <PanelMenuButton label="Like" icon={<RiHeart3Fill />} />
@@ -61,7 +124,7 @@ export const BoulderPanel: FC<BoulderPanelProps> = ({ boulder, ...props }) => {
           <Center h="full">Image placeholder</Center>
         </Box>
       </Stack>
-      <BoulderPanelMenu flex="1" />
+      <BoulderPanelMenu boulder={boulder} flex="1" />
     </AccordionPanel>
   );
 };

@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-type ConfirmModalProps = Omit<ModalProps, 'isOpen' | 'onClose'> & {
+export type ConfirmModalProps = Omit<ModalProps, 'isOpen' | 'onClose'> & {
   isEnabled?: boolean;
   children: ReactElement;
   title?: ReactNode;

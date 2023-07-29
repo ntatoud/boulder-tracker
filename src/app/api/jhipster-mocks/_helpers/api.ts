@@ -71,6 +71,20 @@ export const notSignedInResponse: ErrorResponse = ({
     { status: 401 }
   );
 };
+export const boulderNotFoundResponse: ErrorResponse = ({
+  title,
+  message,
+  details,
+} = {}) => {
+  return new NextResponse(
+    JSON.stringify({
+      title: title ?? 'Boulder not found',
+      message: message ?? 'error.http.404',
+      details,
+    }),
+    { status: 404 }
+  );
+};
 
 export const notAutorizedResponse: ErrorResponse = ({
   title,

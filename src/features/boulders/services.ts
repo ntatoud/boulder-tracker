@@ -24,7 +24,7 @@ export const useBoulderCreate = (
   config: UseMutationOptions<
     Boulder,
     AxiosError<BoulderMutateError>,
-    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade' | 'statusByUsers'>
+    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade' | 'createdById'>
   > = {}
 ) => {
   const queryClient = useQueryClient();
@@ -78,4 +78,26 @@ export const useBoulderList = (
     isLoadingPage,
     ...query,
   };
+};
+
+export const useBoulderDelete = (
+  config: UseMutationOptions<
+    void,
+    AxiosError<ApiErrorResponse>,
+    Pick<Boulder, 'name'>
+  > = {}
+) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (boulder) => {
+      await Axios.delete(`/boulders/${boulder.name}`);
+    },
+    {
+      ...config,
+      onSuccess: (...args) => {
+        queryClient.invalidateQueries(bouldersKeys.boulders._def);
+        config?.onSuccess?.(...args);
+      },
+    }
+  );
 };

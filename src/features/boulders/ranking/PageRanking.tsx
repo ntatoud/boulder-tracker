@@ -1,8 +1,8 @@
-import { HStack, Heading, Stack, Text } from '@chakra-ui/react';
+import { Heading, Stack } from '@chakra-ui/react';
 
 import { Page, PageContent, PageTopBar } from '@/components/Page';
 
-import { BoulderNav } from '../BoulderNav';
+import { BoulderNav } from '../_partials/BoulderNav';
 
 export default function PageRanking() {
   return (

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import {
   apiMethod,
   badRequestResponse,
+  notSignedInResponse,
 } from '@/app/api/jhipster-mocks/_helpers/api';
 import {
   boulderErrorResponse,
@@ -40,20 +41,23 @@ export const GET = apiMethod({
 });
 
 export const POST = apiMethod({
-  handler: async ({ req }) => {
+  handler: async ({ req, user }) => {
+    if (!user?.id) {
+      return notSignedInResponse();
+    }
     const bodyParsed = z
       .object({
-        name: z.string(),
+        name: z.string().nonempty(),
         grade: z.string(),
         location: z.string(),
-        tags: z.string(),
-        statusByUsers: z.string(),
+        tags: z.array(z.string()),
+        createdById: z.number().optional(),
       })
       .safeParse(await req.json());
+
     if (!bodyParsed.success) {
       return badRequestResponse({ details: bodyParsed.error });
     }
-
     try {
       const boulder = formatBoulderFromDb(
         await db.boulder.create({
@@ -75,7 +79,8 @@ export const PUT = apiMethod({
         name: z.string(),
         grade: z.string(),
         location: z.string(),
-        tags: z.string(),
+        tags: z.array(z.string()),
+        userId: z.number(),
       })
       .safeParse(await req.json());
 
