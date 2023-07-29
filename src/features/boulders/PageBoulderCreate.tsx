@@ -7,14 +7,14 @@ import { useToastError, useToastSuccess } from '@/components/Toast';
 
 import { useAccount } from '../account/service';
 import { BoulderCreateForm } from './_partials/BoulderCreateForm';
-import { Boulder } from './schema';
+import { Boulder, BoulderStatus } from './schema';
 import { useBoulderCreate } from './services';
 
 export default function PageBoulderCreate() {
   const navigate = useNavigate();
   const toastSuccess = useToastSuccess();
   const toastError = useToastError();
-  const account = useAccount();
+  const { data: account } = useAccount();
   const { mutate: createBoulder, isLoading: boulderLoading } = useBoulderCreate(
     {
       onError: (error) => {
@@ -46,16 +46,14 @@ export default function PageBoulderCreate() {
   );
 
   const boulderForm = useForm<
-    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade' | 'statusByUsers'>
+    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade'> & {
+      status: BoulderStatus;
+    }
   >({
     onValidSubmit: (values) => {
-      const { tags, statusByUsers: status, ...restValues } = { ...values };
       const newBoulder = {
-        ...restValues,
-        tags: [...tags].join(', '),
-        statusByUsers: `${
-          account.data?.firstName ?? account.data?.email
-        } ${status}`,
+        createdById: account?.id,
+        ...values,
       };
       createBoulder(newBoulder);
     },

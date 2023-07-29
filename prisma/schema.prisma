@@ -33,6 +33,31 @@ model User {
   // updatedUsers    User[]   @relation("UpdatedByUser")
 
   // boulders BoulderStatus[]
+
+  createdBoulders Boulder[] @relation("CreatedByBoulder")
+
+  doneBoulders Boulder[] @relation("doneBoulders")
+
+  triedBoulders Boulder[] @relation("triedBoulders")
+
+  abandonedBoulders Boulder[] @relation("abandonedBoulders")
+}
+
+model Boulder {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  grade    String
+  location String
+  tags     String[]
+
+  createdBy   User? @relation("CreatedByBoulder", fields: [createdById], references: [id])
+  createdById Int?
+
+  doneBy User[] @relation("doneBoulders")
+
+  triedBy User[] @relation("triedBoulders")
+
+  abandonedBy User[] @relation("abandonedBoulders")
 }
 
 model VerificationToken {
@@ -42,21 +67,3 @@ model VerificationToken {
 
   @@unique([token, userId])
 }
-
-model Boulder {
-  id            Int    @id @default(autoincrement())
-  name          String @unique
-  grade         String
-  location      String
-  tags          String
-  statusByUsers String @default("")
-}
-
-// model BoulderStatus {
-//   id        Int     @id @default(autoincrement())
-//   boulder   Boulder @relation(fields: [boulderId], references: [id])
-//   user      User    @relation(fields: [userId], references: [id])
-//   status    String  @default("NOT_DONE")
-//   boulderId Int
-//   userId    Int
-// }

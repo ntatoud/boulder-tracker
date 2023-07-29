@@ -8,6 +8,8 @@ import { ResponsiveIconButton } from '@/components/ResponsiveIconButton';
 import { BoulderList } from './_partials/BoulderList/BoulderList';
 import { BoulderNav } from './_partials/BoulderNav';
 
+// Test comments
+/* Tests*/
 export default function PageBoulders() {
   return (
     <Page containerSize="xl" nav={<BoulderNav />}>

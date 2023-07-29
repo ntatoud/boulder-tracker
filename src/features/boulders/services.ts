@@ -24,7 +24,7 @@ export const useBoulderCreate = (
   config: UseMutationOptions<
     Boulder,
     AxiosError<BoulderMutateError>,
-    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade' | 'statusByUsers'>
+    Pick<Boulder, 'name' | 'location' | 'tags' | 'grade' | 'createdById'>
   > = {}
 ) => {
   const queryClient = useQueryClient();

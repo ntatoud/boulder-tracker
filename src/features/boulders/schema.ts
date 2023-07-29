@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { zUser } from '../users/schema';
+
 export type BoulderGrade = z.infer<ReturnType<typeof zBoulderGrade>>;
 export const zBoulderGrade = () =>
   z.enum([
@@ -41,7 +43,19 @@ export const zBoulderStatus = () =>
 
 export type BoulderTag = z.infer<ReturnType<typeof zBoulderTag>>;
 export const zBoulderTag = () =>
-  z.enum(['Dynamic', 'Balance', 'Crimps', 'Strength']);
+  z.enum([
+    'Balance',
+    'Strength',
+    'Dynamic',
+    'Coordination',
+    'Risky',
+    'Crimps',
+    'Sloppers',
+    'Complex method',
+    'Flexibility',
+    'Slab',
+    'Overhang',
+  ]);
 
 export type Boulder = z.infer<ReturnType<typeof zBoulder>>;
 export const zBoulder = () =>
@@ -50,22 +64,13 @@ export const zBoulder = () =>
     name: z.string(),
     grade: zBoulderGrade(),
     location: z.string(),
-    tags: z.string(),
-    statusByUsers: z.string(),
+    tags: z.array(zBoulderTag()),
+    createdBy: zUser().optional(),
+    createdById: z.number().optional(),
+    doneBy: z.array(zUser()).nullish(),
+    triedBy: z.array(zUser()).nullish(),
+    abandonedBy: z.array(zUser()).nullish(),
   });
-
-export type BoulderStatusByUser = z.infer<
-  ReturnType<typeof zBoulderStatusByUser>
->;
-export const zBoulderStatusByUser = () => z.string();
-// z.object({
-//   id: z.number(),
-//   boulder: zBoulder(),
-//   user: zUser(),
-//   status: zBoulderStatus(),
-//   boulderId: z.number(),
-//   userId: z.number(),
-// }) ;
 
 export type BoulderList = z.infer<ReturnType<typeof zBoulderList>>;
 export const zBoulderList = () =>

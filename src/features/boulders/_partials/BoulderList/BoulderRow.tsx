@@ -5,6 +5,7 @@ import {
   Avatar,
   Badge,
   HStack,
+  Tag,
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
@@ -19,6 +20,7 @@ import {
   DataListCellProps,
   DataListRow,
 } from '@/components/DataList';
+import { useAccount } from '@/features/account/service';
 
 import { Boulder, BoulderStatus } from '../../schema';
 import { BoulderPanel } from './BoulderPanel';
@@ -73,8 +75,11 @@ export type BoulderCaseProps = AccordionProps & {
   boulder: Boulder;
 };
 export const BoulderRow: FC<BoulderCaseProps> = ({ boulder, ...props }) => {
+  console.log(boulder);
+  const { data: account } = useAccount();
+  const isCreator = account?.id === boulder.createdById;
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const status = boulder.statusByUsers.split(' ').pop() ?? 'NOT_TRIED';
+  const status = 'DONE';
   return (
     <DataListAccordion key={boulder.id} {...props}>
       <DataListRow as={DataListAccordionButton} h="4rem">
@@ -92,13 +97,16 @@ export const BoulderRow: FC<BoulderCaseProps> = ({ boulder, ...props }) => {
           <Text>{boulder.grade}</Text>
         </DataListCell>
         <DataListCell colName="tags" isVisible={{ base: false, md: true }}>
-          {boulder.tags.split(',')}
+          {boulder.tags.map((tag) => (
+            <Tag key={boulder.tags.indexOf(tag)}>{tag}</Tag>
+          ))}
         </DataListCell>
         <StatusCell
           isMobile={isMobile}
           status={status as BoulderStatus}
           colWidth="0.8"
         />
+        {isCreator && <Text> Votre bloc</Text>}
         <DataListCell colName="actions">
           <DataListAccordionIcon />
         </DataListCell>
